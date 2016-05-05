@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>urllib, urllib2的一点区别 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="用一个命令行翻译小工具dict，发现只能翻译英文，不能翻译中文，阅读源代码，发现使用的是urllib2下的urlopen方法去获取有道翻译api的返回结果。
+输入中文返回结果显示乱码，然而使用urllib的urlopen方法却能返回正常的结果，于是去查看python源码查找原因。
+在urllib中:12345678910111213def urlopen(url, data=None, proxi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="urllib, urllib2的一点区别">
+<meta property="og:url" content="http://yoursite.com/2015/12/08/urllib-urllib2的一点区别/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="用一个命令行翻译小工具dict，发现只能翻译英文，不能翻译中文，阅读源代码，发现使用的是urllib2下的urlopen方法去获取有道翻译api的返回结果。
+输入中文返回结果显示乱码，然而使用urllib的urlopen方法却能返回正常的结果，于是去查看python源码查找原因。
+在urllib中:12345678910111213def urlopen(url, data=None, proxi">
+<meta property="og:image" content="http://i5.tietuku.cn/49a8ffef4ada7e7a.jpg">
+<meta property="og:updated_time" content="2016-05-05T09:13:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="urllib, urllib2的一点区别">
+<meta name="twitter:description" content="用一个命令行翻译小工具dict，发现只能翻译英文，不能翻译中文，阅读源代码，发现使用的是urllib2下的urlopen方法去获取有道翻译api的返回结果。
+输入中文返回结果显示乱码，然而使用urllib的urlopen方法却能返回正常的结果，于是去查看python源码查找原因。
+在urllib中:12345678910111213def urlopen(url, data=None, proxi">
+<meta name="twitter:image" content="http://i5.tietuku.cn/49a8ffef4ada7e7a.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-urllib-urllib2的一点区别" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/08/urllib-urllib2的一点区别/" class="article-date">
+  <time datetime="2015-12-08T15:05:40.000Z" itemprop="datePublished">2015-12-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      urllib, urllib2的一点区别
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>用一个命令行翻译小工具<a href="https://github.com/wufeifei/dict" target="_blank" rel="external">dict</a>，发现只能翻译英文，不能翻译中文，阅读源代码，发现使用的是urllib2下的urlopen方法去获取有道翻译api的返回结果。</p>
+<p>输入中文返回结果显示乱码，然而使用urllib的urlopen方法却能返回正常的结果，于是去查看python源码查找原因。</p>
+<p>在urllib中:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">urlopen</span><span class="params">(url, data=None, proxies=None)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> _urlopener</span><br><span class="line">    <span class="keyword">if</span> proxies <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">        opener = FancyURLopener(proxies=proxies)</span><br><span class="line">    <span class="keyword">elif</span> <span class="keyword">not</span> _urlopener:</span><br><span class="line">        opener = FancyURLopener()</span><br><span class="line">        _urlopener = opener</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        opener = _urlopener</span><br><span class="line">    <span class="keyword">if</span> data <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">        <span class="keyword">return</span> opener.open(url)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> opener.open(url, data)</span><br></pre></td></tr></table></figure></p>
+<p>它创建了类 FancyURLopener 对象，并调用了它的 open方法.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">open</span><span class="params">(self, fullurl, data=None)</span>:</span></span><br><span class="line">        fullurl = unwrap(toBytes(fullurl))</span><br><span class="line">        fullurl = quote(fullurl, safe=<span class="string">"%/:=&amp;?~#+!$,;'@()*[]|"</span>)</span><br><span class="line">        <span class="keyword">if</span> self.tempcache <span class="keyword">and</span> fullurl <span class="keyword">in</span> self.tempcache:</span><br><span class="line">            filename, headers = self.tempcache[fullurl]</span><br><span class="line">            fp = open(filename, <span class="string">'rb'</span>)</span><br><span class="line">            <span class="keyword">return</span> addinfourl(fp, headers, fullurl)</span><br><span class="line">        urltype, url = splittype(fullurl)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> urltype:</span><br><span class="line">            urltype = <span class="string">'file'</span></span><br><span class="line">        <span class="keyword">if</span> urltype <span class="keyword">in</span> self.proxies:</span><br><span class="line">            proxy = self.proxies[urltype]</span><br><span class="line">            urltype, proxyhost = splittype(proxy)</span><br><span class="line">            host, selector = splithost(proxyhost)</span><br><span class="line">            url = (host, fullurl) <span class="comment"># Signal special case to open_*()</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            proxy = <span class="keyword">None</span></span><br><span class="line">        name = <span class="string">'open_'</span> + urltype</span><br><span class="line">        self.type = urltype</span><br><span class="line">        name = name.replace(<span class="string">'-'</span>, <span class="string">'_'</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> hasattr(self, name):</span><br><span class="line">            <span class="keyword">if</span> proxy:</span><br><span class="line">                <span class="keyword">return</span> self.open_unknown_proxy(proxy, fullurl, data)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> self.open_unknown(fullurl, data)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">if</span> data <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">                <span class="keyword">return</span> getattr(self, name)(url)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> getattr(self, name)(url, data)</span><br><span class="line">        <span class="keyword">except</span> socket.error, msg:</span><br><span class="line">            <span class="keyword">raise</span> IOError, (<span class="string">'socket error'</span>, msg), sys.exc_info()[<span class="number">2</span>]</span><br></pre></td></tr></table></figure></p>
+<p>主要是第三行中调用了quote方法，会将字符串url编码，所以有道的api可以解析，而urllib2不会将其转码，这里就不贴代码了，写个代码验证一下：<br><img src="http://i5.tietuku.cn/49a8ffef4ada7e7a.jpg" alt=""><br>改写一下，这个小工具就支持中英互译了：<a href="https://github.com/tang45/dict" target="_blank" rel="external">dict</a>，使用方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dict dick</span><br><span class="line">###################################</span><br><span class="line">#  dick 迪克 (U: dik E: dik )</span><br><span class="line">#  n. 阴茎，鸡巴；侦探；誓言</span><br><span class="line">###################################</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dict 鸡巴</span><br><span class="line">###################################</span><br><span class="line">#  鸡巴 dick (拼音: jī bā )</span><br><span class="line">#  dick</span><br><span class="line">###################################</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/12/08/urllib-urllib2的一点区别/" data-id="cinubyvsp0000466f7u2i0hwj" class="article-share-link">Delen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/urllib/">urllib</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/urllib2/">urllib2</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/08/12/感想-随处可见数学之美/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ouder</strong>
+      <div class="article-nav-title">[感想] 随处可见数学之美</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Labels</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/gulp/">gulp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/laravel/">laravel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/">node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/require-js/">require.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/urllib/">urllib</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/urllib2/">urllib2</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/gulp/" style="font-size: 10px;">gulp</a> <a href="/tags/laravel/" style="font-size: 10px;">laravel</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/node-js/" style="font-size: 10px;">node.js</a> <a href="/tags/php/" style="font-size: 10px;">php</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/require-js/" style="font-size: 10px;">require.js</a> <a href="/tags/urllib/" style="font-size: 10px;">urllib</a> <a href="/tags/urllib2/" style="font-size: 10px;">urllib2</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archieven</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recente berichten</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/12/08/urllib-urllib2的一点区别/">urllib, urllib2的一点区别</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/12/感想-随处可见数学之美/">[感想] 随处可见数学之美</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/07/用gulp-requirejs-optimize优化压缩js/">用gulp-requirejs-optimize优化压缩js</a>
+          </li>
+        
+          <li>
+            <a href="/2015/07/16/学习笔记-mac配置nginx-laravel-php-fpm/">[学习笔记]mac配置nginx+laravel+php-fpm</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

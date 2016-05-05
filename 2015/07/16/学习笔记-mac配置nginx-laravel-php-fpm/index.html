@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>[学习笔记]mac配置nginx+laravel+php-fpm | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="首先先安装好brew，接下来安装nginx1$brew install nginx
+打开nginx1$nginx
+nginx重新加载|重启|停止|退出 nginx1$nginx -s reload|reopen|stop|quit
+安装php12345678910111213$brew tap homebrew/dupes$brew tap josegonzalez/homebrew-php$br">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[学习笔记]mac配置nginx+laravel+php-fpm">
+<meta property="og:url" content="http://yoursite.com/2015/07/16/学习笔记-mac配置nginx-laravel-php-fpm/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="首先先安装好brew，接下来安装nginx1$brew install nginx
+打开nginx1$nginx
+nginx重新加载|重启|停止|退出 nginx1$nginx -s reload|reopen|stop|quit
+安装php12345678910111213$brew tap homebrew/dupes$brew tap josegonzalez/homebrew-php$br">
+<meta property="og:updated_time" content="2015-08-07T08:50:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[学习笔记]mac配置nginx+laravel+php-fpm">
+<meta name="twitter:description" content="首先先安装好brew，接下来安装nginx1$brew install nginx
+打开nginx1$nginx
+nginx重新加载|重启|停止|退出 nginx1$nginx -s reload|reopen|stop|quit
+安装php12345678910111213$brew tap homebrew/dupes$brew tap josegonzalez/homebrew-php$br">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-学习笔记-mac配置nginx-laravel-php-fpm" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/07/16/学习笔记-mac配置nginx-laravel-php-fpm/" class="article-date">
+  <time datetime="2015-07-16T01:54:17.000Z" itemprop="datePublished">2015-07-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      [学习笔记]mac配置nginx+laravel+php-fpm
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首先先安装好brew，接下来<br>安装nginx<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$brew</span> install nginx</span><br></pre></td></tr></table></figure></p>
+<p>打开nginx<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$nginx</span></span><br></pre></td></tr></table></figure></p>
+<p>nginx<br>重新加载|重启|停止|退出 nginx<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$nginx</span> <span class="_">-s</span> reload|reopen|stop|quit</span><br></pre></td></tr></table></figure></p>
+<p>安装php<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$brew</span> tap homebrew/dupes</span><br><span class="line"><span class="variable">$brew</span> tap josegonzalez/homebrew-php</span><br><span class="line"><span class="variable">$brew</span> install php56</span><br><span class="line">--with-debug </span><br><span class="line">--with-fpm </span><br><span class="line">--with-gmp </span><br><span class="line">--with-homebrew-openssl </span><br><span class="line">--with-imap --with-intl </span><br><span class="line">--with-libmysql </span><br><span class="line">--without-bz2 </span><br><span class="line">--without-mysql </span><br><span class="line">--without-p：qcntl </span><br><span class="line">--without-pear</span><br></pre></td></tr></table></figure></p>
+<p>5.1版的laravel需要php&gt;=5.5.9,建议直接更新至php5.6</p>
+<p>nginx配置<br>修改/usr/local/etc/下的nginx.conf<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"></span><br><span class="line">	listen  你的端口号;</span><br><span class="line">	server_name 你的域名;</span><br><span class="line">	set $root_path <span class="string">'你的laravel项目路径，记得加上/public'</span>;</span><br><span class="line">	root $root_path;</span><br><span class="line"></span><br><span class="line">	index index.php index.html index.htm;</span><br><span class="line"></span><br><span class="line">	location / &#123;</span><br><span class="line">		try_files $uri $uri/ /index.php?$query_string;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	location ~ \.php &#123;</span><br><span class="line"></span><br><span class="line">		fastcgi_pass <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">9000</span>;</span><br><span class="line">		fastcgi_index /index.php;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">include</span> fastcgi_params;</span><br><span class="line"></span><br><span class="line">		fastcgi_split_path_info       ^(.+\.php)(/.+)$;</span><br><span class="line">		fastcgi_param PATH_INFO       $fastcgi_path_info;</span><br><span class="line">		fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;</span><br><span class="line">		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	location ~* ^/(css|img|js|flv|swf|download)/(.+)$ &#123;</span><br><span class="line">		root $root_path;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	location ~ /\.ht &#123;</span><br><span class="line">		deny all;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>启动php-fpm<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> php-fpm</span><br></pre></td></tr></table></figure></p>
+<p>因为nginx本身不能处理PHP，它只是个web服务器，当接收到请求后，如果是php请求，则发给php解释器（PHP-fpm）处理，并把结果返回给客户端。</p>
+<p>如果你的laravel项目时从git仓库里clone下来的，需要先composer install一下，它的使命就是帮你为项目自动安装所依赖的开发包,否则会找不到vendor文件。</p>
+<p>如果提示”Mcrypt PHP extension required”(老版本laravel)，则需要下载mcrypt：brew install mcrypt。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$brew</span> install php56-mcrypt</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/07/16/学习笔记-mac配置nginx-laravel-php-fpm/" data-id="cinubyvsv0002466frcpqtgnp" class="article-share-link">Delen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/laravel/">laravel</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/08/07/用gulp-requirejs-optimize优化压缩js/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Nieuwer</strong>
+      <div class="article-nav-title">
+        
+          用gulp-requirejs-optimize优化压缩js
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Labels</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/gulp/">gulp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/laravel/">laravel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/">node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/require-js/">require.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/urllib/">urllib</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/urllib2/">urllib2</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/gulp/" style="font-size: 10px;">gulp</a> <a href="/tags/laravel/" style="font-size: 10px;">laravel</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/node-js/" style="font-size: 10px;">node.js</a> <a href="/tags/php/" style="font-size: 10px;">php</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/require-js/" style="font-size: 10px;">require.js</a> <a href="/tags/urllib/" style="font-size: 10px;">urllib</a> <a href="/tags/urllib2/" style="font-size: 10px;">urllib2</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archieven</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recente berichten</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/12/08/urllib-urllib2的一点区别/">urllib, urllib2的一点区别</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/12/感想-随处可见数学之美/">[感想] 随处可见数学之美</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/07/用gulp-requirejs-optimize优化压缩js/">用gulp-requirejs-optimize优化压缩js</a>
+          </li>
+        
+          <li>
+            <a href="/2015/07/16/学习笔记-mac配置nginx-laravel-php-fpm/">[学习笔记]mac配置nginx+laravel+php-fpm</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

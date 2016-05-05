@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>[感想] 随处可见数学之美 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="看到这么一道题，题目很简单，但是有2个要求：1) 给定了第一行:1for i in range(1,input()):你只能往里再添加一行
+2) 不能使用字符串
+我的思考过程如下：1.既然题目不能使用字符串，就不能使用拼接字符串的方法解题，那么这道题很有可能是找规律然后输出。2.我发现了规律：1x12x113x1114x1111…3.根据这个规律，我们需要i以及10的i次方的一个累加，这里需要再定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[感想] 随处可见数学之美">
+<meta property="og:url" content="http://yoursite.com/2015/08/12/感想-随处可见数学之美/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="看到这么一道题，题目很简单，但是有2个要求：1) 给定了第一行:1for i in range(1,input()):你只能往里再添加一行
+2) 不能使用字符串
+我的思考过程如下：1.既然题目不能使用字符串，就不能使用拼接字符串的方法解题，那么这道题很有可能是找规律然后输出。2.我发现了规律：1x12x113x1114x1111…3.根据这个规律，我们需要i以及10的i次方的一个累加，这里需要再定">
+<meta property="og:image" content="http://i3.tietuku.cn/dd37822a436f8f0f.png">
+<meta property="og:updated_time" content="2016-05-05T09:13:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[感想] 随处可见数学之美">
+<meta name="twitter:description" content="看到这么一道题，题目很简单，但是有2个要求：1) 给定了第一行:1for i in range(1,input()):你只能往里再添加一行
+2) 不能使用字符串
+我的思考过程如下：1.既然题目不能使用字符串，就不能使用拼接字符串的方法解题，那么这道题很有可能是找规律然后输出。2.我发现了规律：1x12x113x1114x1111…3.根据这个规律，我们需要i以及10的i次方的一个累加，这里需要再定">
+<meta name="twitter:image" content="http://i3.tietuku.cn/dd37822a436f8f0f.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-感想-随处可见数学之美" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/08/12/感想-随处可见数学之美/" class="article-date">
+  <time datetime="2015-08-12T03:00:30.000Z" itemprop="datePublished">2015-08-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      [感想] 随处可见数学之美
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://i3.tietuku.cn/dd37822a436f8f0f.png" alt="Alt text"><br>看到这么一道题，题目很简单，但是有2个要求：<br>1) 给定了第一行:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,input()):</span><br></pre></td></tr></table></figure>你只能往里再添加一行</p>
+<p>2) 不能使用字符串</p>
+<p>我的思考过程如下：<br>1.既然题目不能使用字符串，就不能使用拼接字符串的方法解题，那么这道题很有可能是找规律然后输出。<br>2.我发现了规律：<br>1x1<br>2x11<br>3x111<br>4x1111<br>…<br>3.根据这个规律，我们需要i以及10的i次方的一个累加，这里需要再定义一个变量，使其每次进行一个累加，顺着这个思路往下想的话，此题无解，没有办法只添加一行去实现它。<br>4.我后来发现了它其实还有另外一个规律：<br>1x10/9=1.11111111<br>2x100/9=22.2222222<br>3x1000/9=333.3333333<br>我们知道，python中的整数运算是会将小树转换成整数的，所以最后只要:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,input()):</span><br><span class="line">    <span class="keyword">print</span> (pow(<span class="number">10</span>, i)*i)/<span class="number">9</span>  </span><br></pre></td></tr></table></figure><br>就可以输出题目要求的结果。 </p>
+<p>虽然这只是一个小问题，但是却可以从中发现数学的美妙。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/08/12/感想-随处可见数学之美/" data-id="cinubyvt10005466foidij3ox" class="article-share-link">Delen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/12/08/urllib-urllib2的一点区别/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Nieuwer</strong>
+      <div class="article-nav-title">
+        
+          urllib, urllib2的一点区别
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/08/07/用gulp-requirejs-optimize优化压缩js/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ouder</strong>
+      <div class="article-nav-title">用gulp-requirejs-optimize优化压缩js</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Labels</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/gulp/">gulp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/laravel/">laravel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/">node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/require-js/">require.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/urllib/">urllib</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/urllib2/">urllib2</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/gulp/" style="font-size: 10px;">gulp</a> <a href="/tags/laravel/" style="font-size: 10px;">laravel</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/node-js/" style="font-size: 10px;">node.js</a> <a href="/tags/php/" style="font-size: 10px;">php</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/require-js/" style="font-size: 10px;">require.js</a> <a href="/tags/urllib/" style="font-size: 10px;">urllib</a> <a href="/tags/urllib2/" style="font-size: 10px;">urllib2</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archieven</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recente berichten</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/12/08/urllib-urllib2的一点区别/">urllib, urllib2的一点区别</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/12/感想-随处可见数学之美/">[感想] 随处可见数学之美</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/07/用gulp-requirejs-optimize优化压缩js/">用gulp-requirejs-optimize优化压缩js</a>
+          </li>
+        
+          <li>
+            <a href="/2015/07/16/学习笔记-mac配置nginx-laravel-php-fpm/">[学习笔记]mac配置nginx+laravel+php-fpm</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
