@@ -250,6 +250,177 @@
             
               
                 
+                <a class="post-title-link" href="/2018/08/03/kaggle入门第一题-Titanic/" itemprop="url">
+                  kaggle入门第一题-Titanic
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2018-08-03T21:29:40+08:00" content="2018-08-03">
+              2018-08-03
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p><a href="https://www.kaggle.com/c/titanic" target="_blank" rel="external">题目链接</a></p>
+<p><a href="https://www.kaggle.com/c/titanic/data" target="_blank" rel="external">训练和测试数据</a></p>
+<h3 id="认识数据"><a href="#认识数据" class="headerlink" title="认识数据"></a>认识数据</h3><h5 id="导入训练集和训练集，使用SparkSQL探索数据集，发现数据的大致分布和规律"><a href="#导入训练集和训练集，使用SparkSQL探索数据集，发现数据的大致分布和规律" class="headerlink" title="导入训练集和训练集，使用SparkSQL探索数据集，发现数据的大致分布和规律"></a>导入训练集和训练集，使用SparkSQL探索数据集，发现数据的大致分布和规律</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.sql.SparkSession</span><br><span class="line"></span><br><span class="line">val sparkSession = SparkSession.builder.appName(&quot;example&quot;).getOrCreate()</span><br><span class="line"></span><br><span class="line">val df = sparkSession.read.option(&quot;header&quot;, &quot;true&quot;).option(&quot;inferSchema&quot;, &quot;true&quot;).csv(&quot;/YourPath/.../train.csv&quot;)</span><br><span class="line"></span><br><span class="line">df.printSchema()</span><br><span class="line"></span><br><span class="line">df.describe(&quot;Survived&quot;,&quot;Pclass&quot;,&quot;Sex&quot;,&quot;Age&quot;,&quot;SibSp&quot;,&quot;Parch&quot;,&quot;Ticket&quot;,&quot;Fare&quot;,&quot;Cabin&quot;,&quot;Embarked&quot;).show(false)</span><br><span class="line"></span><br><span class="line">df.createGlobalTempView(&quot;people&quot;)</span><br></pre></td></tr></table></figure>
+<p><img src="http://o8ss0rti8.bkt.clouddn.com/11.png" alt="1-pic"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 舱位对存活率的影响</span><br><span class="line">spark.sql(&quot;WITH t AS(SELECT count(*) as c,Survived,Pclass FROM global_temp.people group by Survived,Pclass order by Pclass) select Pclass,sum(case Survived when 1 then c else 0 end) survive_num, sum(c) total_num, round((sum(case Survived when 1 then c else 0 end)/sum(c)),4) survive_ratio from t group by Pclass&quot;).show()</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 年龄对存活率的影响</span><br><span class="line">spark.sql(&quot;WITH t AS(SELECT count(*) as c,Survived,Floor(Mod(Age,10)) age_rank FROM global_temp.people group by Survived,age_rank order by age_rank) select age_rank,sum(case Survived when 1 then c else 0 end) survive_num, sum(c) total_num, round((sum(case Survived when 1 then c else 0 end)/sum(c)),4) survive_ratio from t group by age_rank&quot;).show()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 性别对存活率的影响</span><br><span class="line">spark.sql(&quot;WITH t AS(SELECT count(*) as c,Survived,Sex FROM global_temp.people group by Survived,Sex order by Sex) select Sex,sum(case Survived when 1 then c else 0 end) survive_num, sum(c) total_num, round((sum(case Survived when 1 then c else 0 end)/sum(c)),4) survive_ratio from t group by Sex&quot;).show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://o8ss0rti8.bkt.clouddn.com/22.png" alt="2-pic"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 兄弟姐妹/配偶对存活率的影响</span><br><span class="line">spark.sql(&quot;WITH t AS(SELECT count(*) as c,Survived,SibSp FROM global_temp.people group by Survived,SibSp order by SibSp) select SibSp,sum(case Survived when 1 then c else 0 end) survive_num, sum(c) total_num, round((sum(case Survived when 1 then c else 0 end)/sum(c)),4) survive_ratio from t group by SibSp&quot;).show()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 父母/孩子的数量对存活率的影响</span><br><span class="line">spark.sql(&quot;WITH t AS(SELECT count(*) as c,Survived,Parch FROM global_temp.people group by Survived,Parch order by Parch) select Parch,sum(case Survived when 1 then c else 0 end) survive_num, sum(c) total_num, round((sum(case Survived when 1 then c else 0 end)/sum(c)),4) survive_ratio from t group by Parch&quot;).show()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 登船港口对存活率的影响</span><br><span class="line">spark.sql(&quot;WITH t AS(SELECT count(*) as c,Survived,embarked FROM global_temp.people group by Survived,embarked order by embarked) select embarked,sum(case Survived when 1 then c else 0 end) survive_num, sum(c) total_num, round((sum(case Survived when 1 then c else 0 end)/sum(c)),4) survive_ratio from t group by embarked&quot;).show()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 年龄对存活率的影响</span><br><span class="line">spark.sql(&quot;WITH t AS(SELECT count(*) as c,Survived,Floor(Mod(Fare,10)) fare_rank FROM global_temp.people group by Survived,fare_rank order by fare_rank) select fare_rank,sum(case Survived when 1 then c else 0 end) survive_num, sum(c) total_num, round((sum(case Survived when 1 then c else 0 end)/sum(c)),4) survive_ratio from t group by fare_rank&quot;).show()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 姓名对存活率的影响</span><br><span class="line">spark.sql(&quot;WITH t AS(SELECT count(*) as c,Survived,regexp_extract(Name, &apos;(,)([^\\.]+)&apos;, 2) name_fix FROM global_temp.people group by Survived,name_fix order by name_fix) select name_fix,sum(case Survived when 1 then c else 0 end) survive_num, sum(c) total_num, round((sum(case Survived when 1 then c else 0 end)/sum(c)),4) survive_ratio from t group by name_fix&quot;).show()</span><br></pre></td></tr></table></figure>
+<h3 id="特征工程"><a href="#特征工程" class="headerlink" title="特征工程"></a>特征工程</h3><h5 id="根据之前对数据的探索，我们可以发现性别、年龄、家庭人数对存活率的影响，我们将其他特征做以下处理："><a href="#根据之前对数据的探索，我们可以发现性别、年龄、家庭人数对存活率的影响，我们将其他特征做以下处理：" class="headerlink" title="根据之前对数据的探索，我们可以发现性别、年龄、家庭人数对存活率的影响，我们将其他特征做以下处理："></a>根据之前对数据的探索，我们可以发现性别、年龄、家庭人数对存活率的影响，我们将其他特征做以下处理：</h5><table>
+<thead>
+<tr>
+<th>特征</th>
+<th>描述</th>
+<th>处理方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>survival</td>
+<td>生存</td>
+<td>当作label</td>
+</tr>
+<tr>
+<td>pclass</td>
+<td>票类别</td>
+<td>onehot</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>姓名</td>
+<td>第一次不使用用，第二次用中间名做onehot</td>
+</tr>
+<tr>
+<td>sex</td>
+<td>性别</td>
+<td>onehot</td>
+</tr>
+<tr>
+<td>Age</td>
+<td>年龄</td>
+<td>用均值补全</td>
+</tr>
+<tr>
+<td>sibsp</td>
+<td>兄弟姐妹/配偶</td>
+<td>直接使用</td>
+</tr>
+<tr>
+<td>parch</td>
+<td>父母/孩子的数量</td>
+<td>直接使用</td>
+</tr>
+<tr>
+<td>ticket</td>
+<td>票号</td>
+<td>不使用</td>
+</tr>
+<tr>
+<td>fare</td>
+<td>乘客票价</td>
+<td>直接使用</td>
+</tr>
+<tr>
+<td>cabin</td>
+<td>客舱号码</td>
+<td>不使用</td>
+</tr>
+<tr>
+<td>embarked</td>
+<td>登船港口</td>
+<td>onehot</td>
+</tr>
+</tbody>
+</table>
+<h3 id="模型训练"><a href="#模型训练" class="headerlink" title="模型训练"></a>模型训练</h3><h5 id="由于特征较少，我们可以使用随机森林用作训练模型，代码可参考：github"><a href="#由于特征较少，我们可以使用随机森林用作训练模型，代码可参考：github" class="headerlink" title="由于特征较少，我们可以使用随机森林用作训练模型，代码可参考：github"></a>由于特征较少，我们可以使用随机森林用作训练模型，代码可参考：<a href="https://github.com/tang45/kaggle-practice/blob/master/src/main/scala/com/tang45/titanic/SurviveStat.scala" target="_blank" rel="external">github</a></h5><h3 id="提交预测数据"><a href="#提交预测数据" class="headerlink" title="提交预测数据"></a>提交预测数据</h3><h5 id="第一次没有使用姓名这个特征，第二使用以后排名提升了不少："><a href="#第一次没有使用姓名这个特征，第二使用以后排名提升了不少：" class="headerlink" title="第一次没有使用姓名这个特征，第二使用以后排名提升了不少："></a>第一次没有使用姓名这个特征，第二使用以后排名提升了不少：<img src="http://o8ss0rti8.bkt.clouddn.com/WechatIMG427.png" alt="3-pic"></h5>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/12/08/urllib-urllib2的一点区别/" itemprop="url">
                   urllib, urllib2的一点区别
                 </a>
@@ -668,7 +839,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
