@@ -250,6 +250,105 @@
             
               
                 
+                <a class="post-title-link" href="/2019/01/21/学习笔记-Spark中的groupbykey、reducebykey、combinebykey方法/" itemprop="url">
+                  学习笔记-Spark中的groupbykey、reducebykey、combinebykey方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2019-01-21T11:25:38+08:00" content="2019-01-21">
+              2019-01-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>groupByKey是对具有相同键的值进行分组，reduceByKey是合并具有相同键的值。</p>
+<p>groupByKey合并之后会产生一个Iterable，reduceByKey不会。</p>
+<p>数据量大的时候一般建议用reduceByKey，因为reduceByKey会在shuffling之前就聚合数据，而groupByKey是在之后。</p>
+<p>combineByKey需要定义三个方法，第一组合，第二合并值，第三合并组合器，看起来比较适合复杂的计算。</p>
+<p>自己写的实践代码:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.practice_spark</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.rdd.<span class="type">RDD</span></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.sql._</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span><br><span class="line">    学习一下 groupbykey  reducebykey combinebykey 这三个方法</span><br><span class="line">    参考文档: https://github.com/vaquarkhan/Apache-Kafka-poc-and-notes/wiki/reduceByKey--vs-groupBykey-vs-aggregateByKey-vs-combineByKey</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">SparkHomework</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="keyword">val</span> spark = <span class="type">SparkSession</span></span><br><span class="line">      .builder()</span><br><span class="line">      .appName(<span class="string">"SparkPractice"</span>)</span><br><span class="line">      .getOrCreate()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// load 商品信息表</span></span><br><span class="line">    <span class="keyword">val</span> df = spark.read.parquet(</span><br><span class="line">      <span class="string">"your_parquet_file"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> rows: <span class="type">RDD</span>[<span class="type">Row</span>] = df.rdd</span><br><span class="line">    <span class="keyword">val</span> pairs = rows.map(x =&gt; (x(<span class="number">4</span>).toString, (x(<span class="number">3</span>).toString.toDouble, <span class="number">1</span>)))</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 统计一下不同类型的商品的平均价格</span></span><br><span class="line">    groupbykeySample(pairs).saveAsTextFile(<span class="string">"your_path_1"</span>)</span><br><span class="line">    reducebykeySample(pairs).saveAsTextFile(<span class="string">"your_path_2"</span>)</span><br><span class="line">    combinebykeySample(rows).saveAsTextFile(<span class="string">"your_path_3"</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">groupbykeySample</span></span>(</span><br><span class="line">      rdd: <span class="type">RDD</span>[(<span class="type">String</span>, (<span class="type">Double</span>, <span class="type">Int</span>))]): <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Double</span>)] = &#123;</span><br><span class="line">    rdd</span><br><span class="line">      .groupByKey()</span><br><span class="line">      .map(t =&gt; &#123;</span><br><span class="line">        <span class="keyword">val</span> item = t._2</span><br><span class="line">        <span class="keyword">var</span> totalPrice = <span class="number">0.0</span></span><br><span class="line">        <span class="keyword">var</span> totalNum = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> (a &lt;- item) &#123;</span><br><span class="line">          totalPrice += a._1</span><br><span class="line">          totalNum += a._2</span><br><span class="line">        &#125;</span><br><span class="line">        (t._1, totalPrice / totalNum)</span><br><span class="line">      &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">reducebykeySample</span></span>(</span><br><span class="line">      rdd: <span class="type">RDD</span>[(<span class="type">String</span>, (<span class="type">Double</span>, <span class="type">Int</span>))]): <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Double</span>)] = &#123;</span><br><span class="line">    rdd</span><br><span class="line">      .reduceByKey &#123;</span><br><span class="line">        <span class="keyword">case</span> ((sumL, countL), (sumR, countR)) =&gt;</span><br><span class="line">          (sumL + sumR, countL + countR)</span><br><span class="line">      &#125;</span><br><span class="line">      .mapValues &#123;</span><br><span class="line">        <span class="keyword">case</span> (sum, count) =&gt; sum / count</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">combinebykeySample</span></span>(rdd: <span class="type">RDD</span>[<span class="type">Row</span>]): <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Double</span>)] = &#123;</span><br><span class="line">    <span class="keyword">val</span> pairs = rdd.map(x =&gt; (x(<span class="number">4</span>).toString, x(<span class="number">3</span>).toString.toDouble))</span><br><span class="line">    <span class="keyword">val</span> createCombiner = (price: <span class="type">Double</span>) =&gt; (<span class="number">1</span>, price)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">type</span> <span class="title">priceCollector</span> </span>= (<span class="type">Int</span>, <span class="type">Double</span>)</span><br><span class="line">    <span class="keyword">val</span> mergeValue = (collector: priceCollector, price: <span class="type">Double</span>) =&gt; &#123;</span><br><span class="line">      <span class="keyword">val</span> (numberPirce, totalPrice) = collector</span><br><span class="line">      (numberPirce + <span class="number">1</span>, totalPrice + price)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> mergeCombiners =</span><br><span class="line">      (collector1: priceCollector, collector2: priceCollector) =&gt; &#123;</span><br><span class="line">        <span class="keyword">val</span> (numPrice1, totalPrice1) = collector1</span><br><span class="line">        <span class="keyword">val</span> (numPrice2, totalPrice2) = collector2</span><br><span class="line"></span><br><span class="line">        (numPrice1 + numPrice2, totalPrice1 + totalPrice2)</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">type</span> <span class="title">goodsPrice</span> </span>= (<span class="type">String</span>, (<span class="type">Int</span>, <span class="type">Double</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> scores = pairs</span><br><span class="line">      .combineByKey(createCombiner, mergeValue, mergeCombiners)</span><br><span class="line">      .map &#123; <span class="keyword">case</span> (key, value) =&gt; (key, value._2 / value._1) &#125;</span><br><span class="line">    scores</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/08/03/kaggle入门第一题-Titanic/" itemprop="url">
                   kaggle入门第一题-Titanic
                 </a>
@@ -839,7 +938,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -849,7 +948,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -906,7 +1005,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
