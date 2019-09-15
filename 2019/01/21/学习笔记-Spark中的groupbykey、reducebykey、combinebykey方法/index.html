@@ -6,19 +6,19 @@
 
 
 <html class="theme-next muse use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
-  <meta name="google-site-verification" content="yuDw5PGmLVJyyLJBk0tSu2stScwzjk96GjRfyIylQ1M" />
+  <meta name="google-site-verification" content="yuDw5PGmLVJyyLJBk0tSu2stScwzjk96GjRfyIylQ1M">
 
 
 
@@ -31,7 +31,7 @@
 
   
   
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
 
 
 
@@ -65,46 +65,39 @@
 
 
 
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="scala,spark," />
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
 
 
+  <meta name="keywords" content="scala,spark,">
 
 
 
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
 
 
 
 
 
 
-<meta name="description" content="groupByKey是对具有相同键的值进行分组，reduceByKey是合并具有相同键的值。
-groupByKey合并之后会产生一个Iterable，reduceByKey不会。
-数据量大的时候一般建议用reduceByKey，因为reduceByKey会在shuffling之前就聚合数据，而groupByKey是在之后。
-combineByKey需要定义三个方法，第一组合，第二合并值，第三合并组">
+<meta name="description" content="groupByKey是对具有相同键的值进行分组，reduceByKey是合并具有相同键的值。 groupByKey合并之后会产生一个Iterable，reduceByKey不会。 数据量大的时候一般建议用reduceByKey，因为reduceByKey会在shuffling之前就聚合数据，而groupByKey是在之后。 combineByKey需要定义三个方法，第一组合，第二合并值，第三合并组">
+<meta name="keywords" content="scala,spark">
 <meta property="og:type" content="article">
 <meta property="og:title" content="学习笔记-Spark中的groupbykey、reducebykey、combinebykey方法">
 <meta property="og:url" content="http://yoursite.com/2019/01/21/学习笔记-Spark中的groupbykey、reducebykey、combinebykey方法/index.html">
 <meta property="og:site_name" content="tang45 space">
-<meta property="og:description" content="groupByKey是对具有相同键的值进行分组，reduceByKey是合并具有相同键的值。
-groupByKey合并之后会产生一个Iterable，reduceByKey不会。
-数据量大的时候一般建议用reduceByKey，因为reduceByKey会在shuffling之前就聚合数据，而groupByKey是在之后。
-combineByKey需要定义三个方法，第一组合，第二合并值，第三合并组">
+<meta property="og:description" content="groupByKey是对具有相同键的值进行分组，reduceByKey是合并具有相同键的值。 groupByKey合并之后会产生一个Iterable，reduceByKey不会。 数据量大的时候一般建议用reduceByKey，因为reduceByKey会在shuffling之前就聚合数据，而groupByKey是在之后。 combineByKey需要定义三个方法，第一组合，第二合并值，第三合并组">
+<meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2019-01-21T06:23:51.567Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习笔记-Spark中的groupbykey、reducebykey、combinebykey方法">
-<meta name="twitter:description" content="groupByKey是对具有相同键的值进行分组，reduceByKey是合并具有相同键的值。
-groupByKey合并之后会产生一个Iterable，reduceByKey不会。
-数据量大的时候一般建议用reduceByKey，因为reduceByKey会在shuffling之前就聚合数据，而groupByKey是在之后。
-combineByKey需要定义三个方法，第一组合，第二合并值，第三合并组">
+<meta name="twitter:description" content="groupByKey是对具有相同键的值进行分组，reduceByKey是合并具有相同键的值。 groupByKey合并之后会产生一个Iterable，reduceByKey不会。 数据量大的时候一般建议用reduceByKey，因为reduceByKey会在shuffling之前就聚合数据，而groupByKey是在之后。 combineByKey需要定义三个方法，第一组合，第二合并值，第三合并组">
 
 
 
@@ -125,7 +118,7 @@ combineByKey需要定义三个方法，第一组合，第二合并值，第三�
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/01/21/学习笔记-Spark中的groupbykey、reducebykey、combinebykey方法/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/01/21/学习笔记-Spark中的groupbykey、reducebykey、combinebykey方法/">
 
   <title> 学习笔记-Spark中的groupbykey、reducebykey、combinebykey方法 | tang45 space </title>
 </head>
@@ -166,7 +159,7 @@ combineByKey需要定义三个方法，第一组合，第二合并值，第三�
   
 
   <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
+    <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
       <span class="site-title">tang45 space</span>
       <span class="logo-line-after"><i></i></span>
@@ -193,7 +186,7 @@ combineByKey需要定义三个方法，第一组合，第二合并值，第三�
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
             Home
           </a>
@@ -203,7 +196,7 @@ combineByKey需要定义三个方法，第一组合，第二合并值，第三�
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
             
             Archives
           </a>
@@ -213,7 +206,7 @@ combineByKey需要定义三个方法，第一组合，第二合并值，第三�
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
             
             Tags
           </a>
@@ -343,6 +336,10 @@ combineByKey需要定义三个方法，第一组合，第二合并值，第三�
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/09/15/学习笔记-编写hive udf/" rel="prev" title="[学习笔记]编写hive udf">
+                [学习笔记]编写hive udf <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -389,7 +386,7 @@ combineByKey需要定义三个方法，第一组合，第二合并值，第三�
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -400,16 +397,14 @@ combineByKey需要定义三个方法，第一组合，第二合并值，第三�
 
       <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="tang45" />
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="tang45">
           <p class="site-author-name" itemprop="name">tang45</p>
           <p class="site-description motion-element" itemprop="description"></p>
         </div>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -419,7 +414,7 @@ combineByKey需要定义三个方法，第一组合，第二合并值，第三�
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -484,7 +479,7 @@ combineByKey需要定义三个方法，第一组合，第二合并值，第三�
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
+        <div class="copyright">
   
   &copy; 
   <span itemprop="copyrightYear">2019</span>

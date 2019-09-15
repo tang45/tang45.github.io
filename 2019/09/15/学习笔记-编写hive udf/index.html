@@ -70,7 +70,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="hive,udf,">
 
 
 
@@ -86,13 +86,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="tang45 space">
-<meta property="og:url" content="http://yoursite.com/archives/2018/index.html">
+<meta name="description" content="udf是什么?当Hive提供的内置函数无法满足你的业务处理需要时，此时就可以考虑使用用户自定义函数。 udf编写过程1、创建一个java类2、继承udf类（如果需要处理复杂类型参数，可以继承抽象类GenericUDF）3、重写evaluate方法4、编译成jar包5、在hive执行add jar方法 1hive&amp;gt; add jar /home/your_name/hive-udf-1.0.0-">
+<meta name="keywords" content="hive,udf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[学习笔记]编写hive udf">
+<meta property="og:url" content="http://yoursite.com/2019/09/15/学习笔记-编写hive udf/index.html">
 <meta property="og:site_name" content="tang45 space">
+<meta property="og:description" content="udf是什么?当Hive提供的内置函数无法满足你的业务处理需要时，此时就可以考虑使用用户自定义函数。 udf编写过程1、创建一个java类2、继承udf类（如果需要处理复杂类型参数，可以继承抽象类GenericUDF）3、重写evaluate方法4、编译成jar包5、在hive执行add jar方法 1hive&amp;gt; add jar /home/your_name/hive-udf-1.0.0-">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-09-15T07:14:21.722Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tang45 space">
+<meta name="twitter:title" content="[学习笔记]编写hive udf">
+<meta name="twitter:description" content="udf是什么?当Hive提供的内置函数无法满足你的业务处理需要时，此时就可以考虑使用用户自定义函数。 udf编写过程1、创建一个java类2、继承udf类（如果需要处理复杂类型参数，可以继承抽象类GenericUDF）3、重写evaluate方法4、编译成jar包5、在hive执行add jar方法 1hive&amp;gt; add jar /home/your_name/hive-udf-1.0.0-">
 
 
 
@@ -113,9 +118,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2018/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/15/学习笔记-编写hive udf/">
 
-  <title> Archive | tang45 space </title>
+  <title> [学习笔记]编写hive udf | tang45 space </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -146,7 +151,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  page-archive  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -224,64 +229,130 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      Um..! 7 posts in total. Keep on posting.
-    </span>
-
+  <div id="posts" class="posts-expand">
     
 
-      
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                [学习笔记]编写hive udf
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2019-09-15T15:02:17+08:00" content="2019-09-15">
+              2019-09-15
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
       
       
 
       
+        <p>udf是什么?<br>当Hive提供的内置函数无法满足你的业务处理需要时，此时就可以考虑使用用户自定义函数。</p>
+<p>udf编写过程<br>1、创建一个java类<br>2、继承udf类（如果需要处理复杂类型参数，可以继承抽象类GenericUDF）<br>3、重写evaluate方法<br>4、编译成jar包<br>5、在hive执行add jar方法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hive&gt; add jar /home/your_name/hive-udf-1.0.0-SNAPSHOT.jar;</span><br></pre></td></tr></table></figure>
+
+<p>6、在hive执行创建模板函数 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hive&gt; create <span class="keyword">function</span> your_func as <span class="string">'your_udf_class'</span></span><br></pre></td></tr></table></figure>
+
+<p>7、hive中使用</p>
+
+      
+    </div>
+
+    <div>
+      
         
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2018">2018</h2>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hive/" rel="tag">#hive</a>
+          
+            <a href="/tags/udf/" rel="tag">#udf</a>
+          
         </div>
       
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/21/学习笔记-Spark中的groupbykey、reducebykey、combinebykey方法/" rel="next" title="学习笔记-Spark中的groupbykey、reducebykey、combinebykey方法">
+                <i class="fa fa-chevron-left"></i> 学习笔记-Spark中的groupbykey、reducebykey、combinebykey方法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
 
       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2018/08/03/kaggle入门第一题-Titanic/" itemprop="url">
-              
-                <span itemprop="name">kaggle入门第一题-Titanic</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-08-03T21:29:40+08:00" content="2018-08-03">
-          08-03
-        </time>
-      </div>
-
-    </header>
+      
+    </footer>
   </article>
 
 
 
-    
-
-  </section>
-
-  
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -289,6 +360,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -308,8 +383,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="tang45">
           <p class="site-author-name" itemprop="name">tang45</p>
@@ -370,6 +454,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -466,11 +561,9 @@
   
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
 
 
   
